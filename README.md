@@ -55,7 +55,8 @@ Este projeto é uma refatoração de um sistema legado de leitura de sensores ut
     Exemplos utilizados:
     
     - LogDecorator: adiciona logging de leituras.
-    VerificadorLimiteDecorator: emite alertas se a temperatura ultrapassar certo limite.
+
+    - VerificadorLimiteDecorator: emite alertas se a temperatura ultrapassar certo limite.
 
 3. Factory Method + Singleton
 
