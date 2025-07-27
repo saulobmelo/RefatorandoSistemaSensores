@@ -60,8 +60,10 @@ Este projeto é uma refatoração de um sistema legado de leitura de sensores ut
 3. Factory Method + Singleton
 
     Classe: SensorFactory
-    O que faz: Centraliza a criação de sensores, evitando instâncias espalhadas e promovendo encapsulamento da lógica de construção.
-    Singleton: garante que apenas uma instância da fábrica exista.
+
+    - O que faz: Centraliza a criação de sensores, evitando instâncias espalhadas e promovendo encapsulamento da lógica de construção.
+
+    - Singleton: garante que apenas uma instância da fábrica exista.
 
 ## 📐 Benefícios alcançados
 
