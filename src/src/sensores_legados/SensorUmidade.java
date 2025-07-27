@@ -1,6 +1,6 @@
 package sensores_legados;
 
-class SensorUmidade {
+public class SensorUmidade {
     public double lerUmidade() {
         return 72.3;
     }
