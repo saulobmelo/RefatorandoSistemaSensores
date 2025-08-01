@@ -10,7 +10,7 @@ Este projeto é uma refatoração de um sistema legado de leitura de sensores ut
 - Permitir extensões sem modificar o código legado
 - Aplicar os padrões:
   - Factory Method
-  - Singleton
+  - singleton
   - Adapter
   - Decorator
 
@@ -58,13 +58,13 @@ Este projeto é uma refatoração de um sistema legado de leitura de sensores ut
 
     - VerificadorLimiteDecorator: emite alertas se a temperatura ultrapassar certo limite.
 
-3. Factory Method + Singleton
+3. Factory Method + singleton
 
     Classe: SensorFactory
 
     - O que faz: Centraliza a criação de sensores, evitando instâncias espalhadas e promovendo encapsulamento da lógica de construção.
 
-    - Singleton: garante que apenas uma instância da fábrica exista.
+    - singleton: garante que apenas uma instância da fábrica exista.
 
 ## 📐 Benefícios alcançados
 
