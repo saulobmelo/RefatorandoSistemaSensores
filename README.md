@@ -1,107 +1,109 @@
-# Sistema de Sensores Refatorado com Padrões de Projeto (GOF)
+# 📡 Sistema de Sensores Refatorado com Padrões de Projeto
 
-Este projeto é uma refatoração de um sistema legado de leitura de sensores utilizando padrões de projeto do catálogo GoF. A proposta é tornar o sistema mais modular, reutilizável, coeso e de fácil manutenção.
+Este projeto é uma refatoração de um sistema legado de sensores utilizando **padrões de projeto GOF** com foco em modularidade, baixo acoplamento e fácil manutenção. A aplicação simula sensores de **temperatura**, **umidade** e **luminosidade**, apresentando suas leituras em um display.
 
+---
 
 ## 🎯 Objetivos
 
-- Reduzir o acoplamento entre componentes
-- Aumentar a coesão e modularidade do sistema
-- Permitir extensões sem modificar o código legado
-- Aplicar os padrões:
-  - Factory Method
-  - singleton
-  - Adapter
-  - Decorator
+- Refatorar o sistema legado com foco em coesão e baixo acoplamento.
+- Aplicar os padrões de projeto:
+  - **Factory Method**
+  - **Singleton**
+  - **Adapter**
+  - **Decorator**
+- Garantir fácil manutenção e extensibilidade para ambientes IoT.
 
-## ⚙️ Como executar
+---
 
-1. Pré-requisitos:
+## 🛠️ Padrões Utilizados
 
-    - JDK 17+
-    - Maven (opcional)
+### 🔨 Factory Method
 
-2. Compile todos os arquivos `.java`:
+Utilizado para encapsular a criação dos sensores. Cada tipo de sensor tem sua própria fábrica:
 
-   ```bash
-   javac -d bin src/*.java src/**/*.java
+- `TemperaturaFactory`
+- `UmidadeFactory`
+- `LuminosidadeFactory`
 
-3. Execute a aplicação:
+Isso facilita a adição de novos sensores no futuro sem alterar o código principal.
 
-    ```bash
-    java -cp bin Main
+---
 
-4. Saída esperada no console:
-    ```bash
-    [LOG] Dado lido: 36.5 °C
-    [Temperatura]: 36.5 °C
-    [LOG] Dado lido: 72.3 %
-    [Umidade]: 72.3 %
-    [Luminosidade]: 850 lux
+### 🧩 Singleton
 
-    ```
+Aplicado na classe `SensorManagerSingleton`, garantindo uma única instância responsável pela coordenação dos sensores e envio dos dados ao display.
 
-## 🧩 Padrões de Projeto Utilizados
-1. Adapter
+---
 
-    O que faz: Adapta sensores legados (SensorTemperatura, SensorUmidade, SensorLuminosidade) para a interface comum Sensor.
+### 🔌 Adapter
 
-    Benefício: Permite que todos os sensores sejam tratados de forma uniforme, promovendo polimorfismo.
+Permite integrar os sensores legados (`SensorTemperatura`, `SensorUmidade`, `SensorLuminosidade`) a uma interface comum `ISensor`. Cada sensor legado tem seu adaptador correspondente, promovendo a **inversão de dependência**.
 
-2. Decorator
+---
 
-    O que faz: Adiciona funcionalidades extras aos sensores sem alterar suas implementações.
+### 🎁 Decorator
 
-    Exemplos utilizados:
-    
-    - LogDecorator: adiciona logging de leituras.
+Adiciona funcionalidades aos sensores de forma flexível, sem alterar as classes originais. Decoradores implementados:
 
-    - VerificadorLimiteDecorator: emite alertas se a temperatura ultrapassar certo limite.
+- `LogDecorator`: exibe logs de leitura.
+- `FormatDecorator`: aplica formatação personalizada.
+- `AlertaDecorator`: exibe alertas para leituras críticas (ex: temperatura > 50°C).
 
-3. Factory Method + singleton
+---
 
-    Classe: SensorFactory
+## 📦 Estrutura do Projeto
 
-    - O que faz: Centraliza a criação de sensores, evitando instâncias espalhadas e promovendo encapsulamento da lógica de construção.
+    /src
+    ├── Main.java
+    ├── factory/
+    │ ├── SensorFactory.java
+    │ ├── TemperaturaFactory.java
+    │ ├── UmidadeFactory.java
+    │ └── LuminosidadeFactory.java
+    ├── singleton/
+    │ └── SensorManagerSingleton.java
+    ├── adapter/
+    │ ├── ISensor.java
+    │ ├── SensorTemperaturaAdapter.java
+    │ ├── SensorUmidadeAdapter.java
+    │ └── SensorLuminosidadeAdapter.java
+    ├── decorator/
+    │ ├── SensorDecorator.java
+    │ ├── LogDecorator.java
+    │ ├── FormatDecorator.java
+    │ └── AlertaDecorator.java
+    ├── legacy/
+    │ ├── SensorTemperatura.java
+    │ ├── SensorUmidade.java
+    │ ├── SensorLuminosidade.java
+    │ └── DisplayConsole.java
 
-    - singleton: garante que apenas uma instância da fábrica exista.
 
-## 📐 Benefícios alcançados
+---
 
-| Problema no código legado                   | Solução com padrões GOF                                 |
-|---------------------------------------------|----------------------------------------------------------|
-| Alto acoplamento (uso direto de classes)    | Uso de `SensorFactory` e interface `Sensor`              |
-| Baixa coesão (uma classe faz tudo)          | Divisão clara de responsabilidades                       |
-| Dificuldade de extensão                     | Decorators permitem adicionar comportamento novo         |
-| Falta de polimorfismo entre sensores        | Interface `Sensor` com Adapters soluciona isso           |
+## ▶️ Como Executar
 
+1. Compile todos os arquivos `.java`.
+2. Execute a classe `Main`.
 
-## 📁 Estrutura do Projeto
-
+Exemplo com terminal:
+```bash
+javac */*.java *.java
+java Main
 ```
-SistemaSensoresRefatorado/
-├── Main.java
-├── interfaces/
-│ └── Sensor.java
-├── sensores_legados/
-│ ├── SensorTemperatura.java
-│ ├── SensorUmidade.java
-│ └── SensorLuminosidade.java
-├── adapters/
-│ ├── SensorTemperaturaAdapter.java
-│ ├── SensorUmidadeAdapter.java
-│ └── SensorLuminosidadeAdapter.java
-├── decorators/
-│ ├── SensorDecorator.java
-│ ├── LogDecorator.java
-│ └── VerificadorLimiteDecorator.java
-├── factory/
-│ └── SensorFactory.java
-├── manager/
-│ └── SensorManager.java
-└── display/
-└── DisplayConsole.java
-```
+
+## 📈 Benefícios da Refatoração
+
+| Problema no Código Legado                            | Solução com Padrões Aplicados                             |
+|-------------------------------------------------------|-----------------------------------------------------------|
+| SensorManager instanciando diretamente os sensores    | Uso do **Factory Method** para encapsular a criação       |
+| Dependência direta de implementações concretas        | Introdução da interface `ISensor` com o padrão **Adapter**|
+| Falta de flexibilidade para novos comportamentos      | Adoção do padrão **Decorator** para extensões dinâmicas   |
+| Baixa coesão e responsabilidade concentrada           | Separação de responsabilidades com o **Singleton**        |
+| Código difícil de manter e testar                     | Modularização com classes independentes e reutilizáveis   |
+
+
 
 ## 👨‍💻 Autores
 
